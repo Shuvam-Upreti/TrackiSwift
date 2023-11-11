@@ -1,0 +1,90 @@
+﻿@model IEnumerable<Order>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2 class="text-primary">Order List</h2>
+        </div>
+            <div class="col-6 text-end">
+                <a asp-controller="Order" asp-action="Create" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i>&nbsp Create New Order
+                </a>
+
+            </div>
+            <div class="col-6 text-end">
+                <form method="post" enctype="multipart/form-data" asp-controller="Order" asp-action="Import">
+                    <div class="input-group">
+                        <input type="file" name="file" class="form-control" />
+                        <button type="submit" class="btn btn-primary">Import</button>
+                    </div>
+                </form>
+            </div>
+        <hr />
+    </div>
+    <table class="table table-bordered table-striped table-hover " style="width:100%">
+        <thead>
+            <tr>
+                <th>
+                    Order Id
+                </th>
+                <th>
+                    Receiver Name
+                </th>
+                <th>
+                    Created At
+                </th>
+                <th>
+                    Delivery Address
+                </th>
+                <th>
+                    Weight
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @foreach (var obj in Model)
+            {
+                <tr>
+                    <td width="3%">
+                        @obj.OrderId
+                    </td>
+                    <td width="40%">
+                        @obj.ReceiverName
+                    </td>
+                    <td width="15%">
+                        @obj.CreatedDateTime
+                    </td>
+                    <td width="20%">
+                        @obj.DeliveryAddress
+                    </td>
+                    <td width="15%">
+                        @obj.Weight
+                    </td>
+                    <td width="20%">
+                        @obj.Amount
+                    </td>
+                    <td style="display:flex;">
+                        <div class="w-50 btn-group" role="group">
+                            <a asp-controller="Order" asp-action="Edit" asp-route-id="@obj.OrderId" class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i>&nbsp Edit</a>
+                        </div>
+                        <div class="w-50 btn-group" role="group">
+                            <a asp-controller="Order" asp-action="Delete" asp-route-id="@obj.OrderId" class="btn btn-danger mx-2"> <i class="bi bi-pencil-square"></i>&nbsp Delete</a>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+</div>
