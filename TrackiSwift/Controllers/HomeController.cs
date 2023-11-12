@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using TrackiSwift.Models;
 
-namespace TrackiSwift.Controllers
+namespace TrackiSwift.Areas.Client.Controllers
 {
     public class HomeController : Controller
     {

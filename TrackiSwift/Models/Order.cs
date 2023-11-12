@@ -18,6 +18,7 @@ namespace TrackiSwift.Models
         [DisplayName("Delivery Address")]
         public string DeliveryAddress { get; set; }
         [Required]
+        [DisplayName("Weight (KG)")]
         public double Weight {  get; set; }
         [Required]
         public double Amount {  get; set; }

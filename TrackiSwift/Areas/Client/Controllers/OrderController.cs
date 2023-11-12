@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using OfficeOpenXml;
 using TrackiSwift.Models;
 
-namespace TrackiSwift.Controllers
+namespace TrackiSwift.Areas.Client.Controllers
 {
+    [Area("Client")]
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -48,13 +49,13 @@ namespace TrackiSwift.Controllers
             {
                 return NotFound();
             }
-            var coverTypeFromDb = _db.Orders.FirstOrDefault(u => u.OrderId == Id);
+            var orderFromDb = _db.Orders.FirstOrDefault(u => u.OrderId == Id);
 
-            if (coverTypeFromDb == null)
+            if (orderFromDb == null)
             {
                 return NotFound();
             }
-            return View(coverTypeFromDb);
+            return View(orderFromDb);
         }
         [HttpPost]
         public IActionResult Edit(Order obj)
@@ -80,18 +81,17 @@ namespace TrackiSwift.Controllers
             return View(coverTypeFromDb);
         }
         [HttpPost]
-        public IActionResult DeletePOST(int? Id)
+        public IActionResult DeletePOST(Order obj)
         {
-            var obj = _db.Orders.FirstOrDefault(u => u.OrderId == Id);
-            if (obj == null)
+            if (ModelState.IsValid)
             {
-                return NotFound();
-            }
 
-            _db.Orders.Remove(obj);
-            _db.SaveChanges();
-            TempData["success"] = "Deleted sucessfully";
-            return RedirectToAction("Index");
+                _db.Orders.Remove(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Deleted sucessfully";
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
 
         public IActionResult Import(IFormFile file)
