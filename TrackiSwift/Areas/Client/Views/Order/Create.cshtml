@@ -56,6 +56,30 @@
             </div>
             <span asp-validation-for="Amount" class="text-danger" style="margin-left:13.5vw;"></span>
         </div>
+
+        <div class="mb-3">
+            <div class="deliveryStatus" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="DeliveryStatus"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="DeliveryStatus" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="DeliveryStatus" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>   
+        <div class="mb-3">
+            <div class="paymentStatus" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="PaymentStatus"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="PaymentStatus" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="PaymentStatus" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+
         <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
         <a asp-area="Client" asp-controller="Order" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
 

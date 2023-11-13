@@ -22,8 +22,8 @@ namespace TrackiSwift.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            IEnumerable<Order> objCoverTypeList = _db.Orders.ToList();
-            return View(objCoverTypeList);
+            IEnumerable<Order> objOrderList = _db.Orders.ToList();
+            return View(objOrderList);
         }
 
         public IActionResult Create()
@@ -60,12 +60,15 @@ namespace TrackiSwift.Areas.Client.Controllers
         [HttpPost]
         public IActionResult Edit(Order obj)
         {
-            _db.Orders.Update(obj);
-            _db.SaveChanges();
-            TempData["success"] = "Edited sucessfully";
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                _db.Orders.Update(obj);
+                _db.SaveChanges();
+                TempData["success"] = "Edited successfully";
+                return RedirectToAction("Index");
+            }
+            return View(obj);
         }
-
         public IActionResult Delete(int? Id)
         {
             if (Id == null || Id == 0)
@@ -81,7 +84,7 @@ namespace TrackiSwift.Areas.Client.Controllers
             return View(coverTypeFromDb);
         }
         [HttpPost]
-        public IActionResult DeletePOST(Order obj)
+        public IActionResult Delete(Order obj)
         {
             if (ModelState.IsValid)
             {
