@@ -49,6 +49,7 @@
                 </div>
                 <div class="col-8">
                     <select id="selectedAmount" asp-for="Amount"  class="form-control" >
+                        <option value="">--- Select Amount ---</option>
                         <option value="100">Rs.100 (Inside RingRoad)</option>
                         <option value="130">Rs.130 (Outside RingRoad)</option>
                     </select>
@@ -63,7 +64,12 @@
                     <label asp-for="DeliveryStatus"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="DeliveryStatus" class="form-control" />
+                    <select id="deliveryStatus" asp-for="DeliveryStatus" class="form-control">
+                        <option value="Unverified">Unverified</option>
+                        <option value="InProcress">InProcress</option>
+                        <option value="Delivered">Delivered</option>
+                        <option value="Returned">Returned</option>
+                    </select>
                 </div>
             </div>
             <span asp-validation-for="DeliveryStatus" class="text-danger" style="margin-left:13.5vw;"></span>
@@ -74,7 +80,11 @@
                     <label asp-for="PaymentStatus"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="PaymentStatus" class="form-control" />
+                    <select id="selectedStatus" asp-for="Amount" class="form-control">
+                        <option  value="" >--- Select Payment Status ---</option>
+                        <option value="After Delivery">After Delivery</option>
+                        <option value="Before Delivery">Before Delivery</option>
+                    </select>
                 </div>
             </div>
             <span asp-validation-for="PaymentStatus" class="text-danger" style="margin-left:13.5vw;"></span>
