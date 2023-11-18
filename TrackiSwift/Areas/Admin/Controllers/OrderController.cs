@@ -1,12 +1,14 @@
 ﻿using MeetingRoom.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficeOpenXml;
 using TrackiSwift.Models;
+using TrackiSwift.Models.Models;
 
 namespace TrackiSwift.Areas.Client.Controllers
 {
-    [Area("Client")]
+    [Area("Admin")]
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -22,8 +24,8 @@ namespace TrackiSwift.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            IEnumerable<Order> objOrderList = _db.Orders.ToList();
-            return View(objOrderList);
+           // IEnumerable<Order> objOrderList = _db.Orders.ToList();
+            return View();
         }
 
         public IActionResult Create()
@@ -64,11 +66,23 @@ namespace TrackiSwift.Areas.Client.Controllers
             {
                 _db.Orders.Update(obj);
                 _db.SaveChanges();
-                TempData["success"] = "Edited successfully";
+                TempData["success"] = "Edited Sucessfully";
                 return RedirectToAction("Index");
             }
             return View(obj);
         }
+        //[HttpPost]
+        //public IActionResult Edit(Order obj)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _db.Orders.Update(obj);
+        //        _db.SaveChanges();
+        //        TempData["success"] = "Edited successfully";
+        //        return RedirectToAction("Index");
+        //    }
+        //    return View(obj);
+        //}
         public IActionResult Delete(int? Id)
         {
             if (Id == null || Id == 0)
@@ -88,6 +102,23 @@ namespace TrackiSwift.Areas.Client.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (obj.DeliveryStatus =="Delivered" || obj.DeliveryStatus == "Returned")
+                {
+                    OrderBackup backupOrders = new OrderBackup
+                    {
+                       OrderId = obj.OrderId,
+                       ReceiverName = obj.ReceiverName,
+                       ReceiverNumber = obj.ReceiverNumber,
+                       CreatedDateTime = DateTime.Now,
+                       DeliveryAddress = obj.DeliveryAddress,
+                       Weight = obj.Weight,
+                       Amount = obj.Amount,
+                       DeliveryStatus = obj.DeliveryStatus,
+                       PaymentStatus = obj.PaymentStatus,
+                    };
+                    _db.OrderBackups.Add(backupOrders);
+                    _db.SaveChanges();
+                }
 
                 _db.Orders.Remove(obj);
                 _db.SaveChanges();
@@ -111,11 +142,10 @@ namespace TrackiSwift.Areas.Client.Controllers
                     file.CopyTo(stream);
                     using (var package = new ExcelPackage(stream))
                     {
-                        var worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first worksheet
+                        var worksheet = package.Workbook.Worksheets[0]; 
 
                         List<Order> orders = new List<Order>();
 
-                        // Start from row 2 to skip headers
                         for (int row = 1; row <= worksheet.Dimension.Rows; row++)
                         {
                             Order order = new Order
@@ -145,5 +175,17 @@ namespace TrackiSwift.Areas.Client.Controllers
                 return RedirectToAction("Index");
             }
         }
+
+
+
+        #region API CALLS
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            var productList = _db.Orders.ToList();
+            return Json(new { data = productList });
+
+        }
+        #endregion
     }
 }

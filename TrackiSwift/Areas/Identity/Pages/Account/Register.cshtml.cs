@@ -116,7 +116,6 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             [Required]
             public int WardNo { get; set; }
             public string? Role { get; set; }
-
             [ValidateNever]
             public IEnumerable<SelectListItem> RoleList {  get; set; }
         }

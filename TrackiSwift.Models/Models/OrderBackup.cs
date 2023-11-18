@@ -1,12 +1,17 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace TrackiSwift.Models
+namespace TrackiSwift.Models.Models
 {
-    public class Order
+    public class OrderBackup
     {
         [Key]
+        public int Id { get; set; }
         [DisplayName("Order Id")]
         public int OrderId { get; set; }
         [Required]
@@ -34,6 +39,5 @@ namespace TrackiSwift.Models
         [Required]
         [DisplayName("Payment Status")]
         public string PaymentStatus { get; set; }
-
     }
 }

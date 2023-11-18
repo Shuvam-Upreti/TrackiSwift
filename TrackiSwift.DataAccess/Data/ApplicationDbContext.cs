@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using TrackiSwift.Models;
+using TrackiSwift.Models.Models;
 
 namespace MeetingRoom.Data
 {
@@ -14,7 +15,10 @@ namespace MeetingRoom.Data
         }
         public DbSet<Order> Orders { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-        
+        public DbSet<OrderBackup> OrderBackups { get; set; }
+
+
+
     }
 
 }

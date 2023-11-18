@@ -1,0 +1,140 @@
+﻿@model TrackiSwift.Models.Order
+
+<form method="post">
+    <div class="border p-3 mt-3">
+        <div class="row pt-2">
+            <h2 class="text-primary">Create Order</h2>
+            
+        </div>
+       
+        <hr />
+        @* <div asp-validation-summary="All"></div>*@
+        <div class="mb-3">
+            <div class="receiverName" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="ReceiverName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ReceiverName" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ReceiverName" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+        <div class="mb-3">
+            <div class="receiverNumber" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="ReceiverNumber"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="ReceiverNumber" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="ReceiverNumber" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+        <div class="mb-3">
+            <div class="deliveryAddress" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="DeliveryAddress"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="DeliveryAddress" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="DeliveryAddress" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+        <div class="mb-3">
+            <div class="weight" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="Weight"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Weight" class="form-control" />
+                </div>
+            </div>
+            <span asp-validation-for="Weight" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+        @if (User.IsInRole("Client"))
+        {
+            <div class="mb-3">
+                <div class="amount" style="display: flex;">
+                    <div class="col-2">
+                        <label asp-for="Amount"></label>
+                    </div>
+                    <div class="col-8">
+                        <select id="selectedAmount" asp-for="Amount" class="form-control">
+                            <option value="">--- Select Amount ---</option>
+                            <option value="100">Rs.100 (Inside RingRoad)</option>
+                            <option value="130">Rs.130 (Outside RingRoad)</option>
+                        </select>
+                    </div>
+                </div>
+                <span asp-validation-for="Amount" class="text-danger" style="margin-left:13.5vw;"></span>
+
+            </div>
+        }
+
+        <div class="mb-3">
+            <div class="deliveryStatus" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="DeliveryStatus"></label>
+                </div>
+                <div class="col-8">
+                    @if (User.IsInRole("Client"))
+                    {
+                        <select id="deliveryStatus" asp-for="DeliveryStatus" class="form-control">
+                            <option selected value="Unverified">Unverified</option>
+                        </select>
+                    }
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <select id="deliveryStatus" asp-for="DeliveryStatus" class="form-control">
+
+                            <option value="Unverified">Unverified</option>
+                            <option value="InProcress">InProcress</option>
+                            <option value="Delivered">Delivered</option>
+                            <option value="Returned">Returned</option>
+                        </select>
+                    }
+                </div>
+            </div>
+            <span asp-validation-for="DeliveryStatus" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+        <div class="mb-3">
+            <div class="paymentStatus" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="PaymentStatus"></label>
+                </div>
+                <div class="col-8">
+                    <select id="selectedStatus" asp-for="PaymentStatus" class="form-control">
+                        <option value="">--- Select Payment Status ---</option>
+                        @if (User.IsInRole("Client"))
+                        {
+
+                            <option value="After Delivery">After Delivery</option>
+                            <option value="Before Delivery">Before Delivery</option>
+                            <option value="COD">COD</option>
+                        }
+
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <option value="Paid">Paid</option>
+                            <option value="Unpaid">Unpaid</option>
+                            <option value="COD">COD</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <span asp-validation-for="PaymentStatus" class="text-danger" style="margin-left:13.5vw;"></span>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:150px">Create</button>
+        <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+    <partial name="_ValidationScriptsPartial" />
+    }
+}
