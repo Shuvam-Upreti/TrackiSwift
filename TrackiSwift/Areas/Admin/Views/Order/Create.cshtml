@@ -1,6 +1,8 @@
-﻿@model TrackiSwift.Models.Order
+﻿@model TrackiSwift.Models.ViewModels.OrderVM
 
 <form method="post">
+    <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
+
     <div class="border p-3 mt-3">
         <div class="row pt-2">
             <h2 class="text-primary">Create Order</h2>

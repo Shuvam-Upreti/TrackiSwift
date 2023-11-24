@@ -5,6 +5,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace TrackiSwift.Models.Models
 {
@@ -14,6 +16,10 @@ namespace TrackiSwift.Models.Models
         public int Id { get; set; }
         [DisplayName("Order Id")]
         public int OrderId { get; set; }
+        [ForeignKey("OrderId")]
+        [ValidateNever]
+        public Order Order { get; set; }
+
         [Required]
         [DisplayName("Receiver Name")]
 

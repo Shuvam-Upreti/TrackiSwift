@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficeOpenXml;
+using System.Security.Claims;
 using TrackiSwift.Models;
 using TrackiSwift.Models.Models;
+using TrackiSwift.Models.ViewModels;
 
 namespace TrackiSwift.Areas.Client.Controllers
 {
@@ -30,14 +32,32 @@ namespace TrackiSwift.Areas.Client.Controllers
 
         public IActionResult Create()
         {
-            return View();
+            string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var viewModel = new OrderVM
+            {
+                ApplicationUserId = userId
+            };
+            return View(viewModel);
         }
         [HttpPost]
-        public IActionResult Create(Order obj)
+        public IActionResult Create(OrderVM obj)
         {
             if (ModelState.IsValid)
             {
-                _db.Orders.Add(obj);
+                Order objs = new Order()
+                {
+                    OrderId=obj.OrderId,
+                    ApplicationUserId=obj.ApplicationUserId,
+                    ReceiverName=obj.ReceiverName,
+                    ReceiverNumber=obj.ReceiverNumber,
+                    CreatedDateTime=obj.CreatedDateTime,
+                    DeliveryAddress=obj.DeliveryAddress,
+                    Weight=obj.Weight,
+                    Amount=obj.Amount,
+                    DeliveryStatus=obj.DeliveryStatus,
+                    PaymentStatus=obj.PaymentStatus
+                };
+                _db.Orders.Add(objs);
                 _db.SaveChanges();
                 TempData["success"] = "Created sucessfully";
                 return RedirectToAction("Index");
@@ -71,18 +91,6 @@ namespace TrackiSwift.Areas.Client.Controllers
             }
             return View(obj);
         }
-        //[HttpPost]
-        //public IActionResult Edit(Order obj)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _db.Orders.Update(obj);
-        //        _db.SaveChanges();
-        //        TempData["success"] = "Edited successfully";
-        //        return RedirectToAction("Index");
-        //    }
-        //    return View(obj);
-        //}
         public IActionResult Delete(int? Id)
         {
             if (Id == null || Id == 0)
@@ -182,8 +190,8 @@ namespace TrackiSwift.Areas.Client.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var productList = _db.Orders.ToList();
-            return Json(new { data = productList });
+            var orderList = _db.Orders.ToList();
+            return Json(new { data = orderList });
 
         }
         #endregion
