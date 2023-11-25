@@ -2,6 +2,7 @@
 
 <form method="post" asp-action="Edit" asp-route-id="@Model.OrderId">
     <input type="hidden" asp-for="OrderId" />
+    <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
     <div class="border p-3 mt-3">
         <div class="row pt-2">
             <h2 class="text-primary">Edit Order</h2>
@@ -52,7 +53,7 @@
             </div>
             <span asp-validation-for="Weight" class="text-danger" style="margin-left:13.5vw;"></span>
         </div>
-        @if (User.IsInRole("Client"))
+        @if (User.IsInRole("Client,Admin"))
         {
             <div class="mb-3">
                 <div class="amount" style="display: flex;">

@@ -26,7 +26,7 @@ namespace TrackiSwift.Areas.Client.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-           // IEnumerable<Order> objOrderList = _db.Orders.ToList();
+            // IEnumerable<Order> objOrderList = _db.Orders.ToList();
             return View();
         }
 
@@ -46,16 +46,16 @@ namespace TrackiSwift.Areas.Client.Controllers
             {
                 Order objs = new Order()
                 {
-                    OrderId=obj.OrderId,
-                    ApplicationUserId=obj.ApplicationUserId,
-                    ReceiverName=obj.ReceiverName,
-                    ReceiverNumber=obj.ReceiverNumber,
-                    CreatedDateTime=obj.CreatedDateTime,
-                    DeliveryAddress=obj.DeliveryAddress,
-                    Weight=obj.Weight,
-                    Amount=obj.Amount,
-                    DeliveryStatus=obj.DeliveryStatus,
-                    PaymentStatus=obj.PaymentStatus
+                    OrderId = obj.OrderId,
+                    ApplicationUserId = obj.ApplicationUserId,
+                    ReceiverName = obj.ReceiverName,
+                    ReceiverNumber = obj.ReceiverNumber,
+                    CreatedDateTime = obj.CreatedDateTime,
+                    DeliveryAddress = obj.DeliveryAddress,
+                    Weight = obj.Weight,
+                    Amount = obj.Amount,
+                    DeliveryStatus = obj.DeliveryStatus,
+                    PaymentStatus = obj.PaymentStatus
                 };
                 _db.Orders.Add(objs);
                 _db.SaveChanges();
@@ -110,19 +110,19 @@ namespace TrackiSwift.Areas.Client.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (obj.DeliveryStatus =="Delivered" || obj.DeliveryStatus == "Returned")
+                if (obj.DeliveryStatus == "Delivered" || obj.DeliveryStatus == "Returned")
                 {
                     OrderBackup backupOrders = new OrderBackup
                     {
-                       OrderId = obj.OrderId,
-                       ReceiverName = obj.ReceiverName,
-                       ReceiverNumber = obj.ReceiverNumber,
-                       CreatedDateTime = DateTime.Now,
-                       DeliveryAddress = obj.DeliveryAddress,
-                       Weight = obj.Weight,
-                       Amount = obj.Amount,
-                       DeliveryStatus = obj.DeliveryStatus,
-                       PaymentStatus = obj.PaymentStatus,
+                        OrderId = obj.OrderId,
+                        ReceiverName = obj.ReceiverName,
+                        ReceiverNumber = obj.ReceiverNumber,
+                        CreatedDateTime = DateTime.Now,
+                        DeliveryAddress = obj.DeliveryAddress,
+                        Weight = obj.Weight,
+                        Amount = obj.Amount,
+                        DeliveryStatus = obj.DeliveryStatus,
+                        PaymentStatus = obj.PaymentStatus,
                     };
                     _db.OrderBackups.Add(backupOrders);
                     _db.SaveChanges();
@@ -150,7 +150,7 @@ namespace TrackiSwift.Areas.Client.Controllers
                     file.CopyTo(stream);
                     using (var package = new ExcelPackage(stream))
                     {
-                        var worksheet = package.Workbook.Worksheets[0]; 
+                        var worksheet = package.Workbook.Worksheets[0];
 
                         List<Order> orders = new List<Order>();
 
@@ -159,9 +159,13 @@ namespace TrackiSwift.Areas.Client.Controllers
                             Order order = new Order
                             {
                                 ReceiverName = worksheet.Cells[row, 1].Value?.ToString(),
-                                DeliveryAddress = worksheet.Cells[row, 2].Value?.ToString(),
-                                Weight = Convert.ToDouble(worksheet.Cells[row, 3].Value),
-                                Amount = Convert.ToDouble(worksheet.Cells[row, 4].Value),
+                                ReceiverNumber = worksheet.Cells[row, 2].Value?.ToString(),
+                                DeliveryAddress = worksheet.Cells[row, 3].Value?.ToString(),
+                                Weight = Convert.ToDouble(worksheet.Cells[row, 4].Value),
+                                Amount = Convert.ToDouble(worksheet.Cells[row, 5].Value),
+                                DeliveryStatus = worksheet.Cells[row, 6].Value?.ToString(),
+                                PaymentStatus = worksheet.Cells[row, 7].Value?.ToString(),
+                                ApplicationUserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
 
                             };
                             orders.Add(order);

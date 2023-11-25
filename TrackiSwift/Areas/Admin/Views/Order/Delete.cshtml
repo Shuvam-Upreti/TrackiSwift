@@ -2,6 +2,8 @@
 
 <form method="post" asp-action="Delete">
     <input asp-for="OrderId" hidden />
+    <input type="hidden" asp-for="ApplicationUserId"/>
+
     <div class="border p-3 mt-3">
         <div class="row pt-2">
             <h2 class="text-primary">Delete Order</h2>
