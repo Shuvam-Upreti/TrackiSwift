@@ -1,12 +1,15 @@
 ﻿using MeetingRoom.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using OfficeOpenXml;
+using System.Diagnostics;
 using System.Security.Claims;
 using TrackiSwift.Models;
 using TrackiSwift.Models.Models;
 using TrackiSwift.Models.ViewModels;
+using TrackiSwift.Utility;
 
 namespace TrackiSwift.Areas.Client.Controllers
 {
@@ -192,9 +195,29 @@ namespace TrackiSwift.Areas.Client.Controllers
 
         #region API CALLS
         [HttpGet]
-        public IActionResult GetAll()
+        public IActionResult GetAll(string status)
         {
-            var orderList = _db.Orders.ToList();
+            IEnumerable<Order> orderList;
+             orderList = _db.Orders.ToList();
+
+            switch (status)
+            {
+                case "unverified":
+                    orderList = orderList.Where(u => u.DeliveryStatus == SD.StatusUnverified);
+                    break;
+                case "inprocess":
+                    orderList = orderList.Where(u => u.DeliveryStatus == SD.StatusInProcess);
+                    break;
+                case "delivered":
+                    orderList = orderList.Where(u => u.DeliveryStatus == SD.StatusDelivered);
+                    break;
+                case "returned":
+                    orderList = orderList.Where(u => u.DeliveryStatus == SD.StatusCancelled);
+                    break;
+                default:
+                    break;
+            }
+
             return Json(new { data = orderList });
 
         }
