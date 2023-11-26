@@ -2,12 +2,12 @@
 
 <form method="post" asp-action="Delete">
     <input asp-for="OrderId" hidden />
-    <input type="hidden" asp-for="ApplicationUserId"/>
+    <input type="hidden" asp-for="ApplicationUserId" />
 
     <div class="border p-3 mt-3">
         <div class="row pt-2">
             <h2 class="text-primary">Delete Order</h2>
-         
+
         </div>
         <div id="alert"></div>
         <div class="mb-3">
@@ -20,7 +20,7 @@
                 </div>
             </div>
             <span asp-validation-for="ReceiverName" class="text-danger" style="margin-left:13.5vw;"></span>
-        </div>   
+        </div>
         <div class="mb-3">
             <div class="receiverNumber" style="display: flex;">
                 <div class="col-2">
@@ -54,24 +54,23 @@
             </div>
             <span asp-validation-for="Weight" class="text-danger" style="margin-left:13.5vw;"></span>
         </div>
-        @if (User.IsInRole("Client"))
-        {
-            <div class="mb-3">
-                <div class="amount" style="display: flex;">
-                    <div class="col-2">
-                        <label asp-for="Amount"></label>
-                    </div>
-                    <div class="col-8">
-                        <select id="selectedAmount" asp-for="Amount" class="form-control">
-                            <option value="100">Rs.100 (Inside RingRoad)</option>
-                            <option value="130">Rs.130 (Outside RingRoad)</option>
-                        </select>
-                    </div>
+        <div class="mb-3">
+            <div class="amount" style="display: flex;">
+                <div class="col-2">
+                    <label asp-for="Amount"></label>
                 </div>
-                <span asp-validation-for="Amount" class="text-danger" style="margin-left:13.5vw;"></span>
-
+                <div class="col-8">
+                    <select id="selectedAmount" asp-for="Amount" class="form-control">
+                        <option value="">--- Select Amount ---</option>
+                        <option value="100">Rs.100 (Inside RingRoad)</option>
+                        <option value="130">Rs.130 (Outside RingRoad)</option>
+                    </select>
+                </div>
             </div>
-        }
+            <span asp-validation-for="Amount" class="text-danger" style="margin-left:13.5vw;"></span>
+
+        </div>
+
 
         <div class="mb-3">
             <div class="deliveryStatus" style="display: flex;">
@@ -126,9 +125,8 @@
             </div>
             <span asp-validation-for="PaymentStatus" class="text-danger" style="margin-left:13.5vw;"></span>
         </div>
-    </div>
-    <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
-    <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
+        <button type="submit" class="btn btn-danger" style="width:150px">Delete</button>
+        <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
 
     </div>
 
