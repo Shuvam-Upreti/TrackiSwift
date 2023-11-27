@@ -17,7 +17,6 @@ $(document).ready(function () {
     else {
         loadDataTable("all");
     }
-    //loadDataTable();
 });
 
 function loadDataTable(status) {

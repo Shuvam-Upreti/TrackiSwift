@@ -5,11 +5,11 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackiSwift", "TrackiSwift\TrackiSwift.csproj", "{9C6BF95E-3A28-4D3F-A180-620A2F70C9B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackiSwift.Utility", "TrackiSwift.Utility\TrackiSwift.Utility.csproj", "{4C4AD45A-34A8-4AC9-A6F3-6595F9D31A0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackiSwift.Utility", "TrackiSwift.Utility\TrackiSwift.Utility.csproj", "{4C4AD45A-34A8-4AC9-A6F3-6595F9D31A0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackiSwift.DataAccess", "TrackiSwift.DataAccess\TrackiSwift.DataAccess.csproj", "{86569607-2CB3-4EEB-808E-A7C7BC5E6DD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackiSwift.DataAccess", "TrackiSwift.DataAccess\TrackiSwift.DataAccess.csproj", "{86569607-2CB3-4EEB-808E-A7C7BC5E6DD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrackiSwift.Models", "TrackiSwift.Models\TrackiSwift.Models.csproj", "{0CF56B2D-8C85-477A-9EA8-61FAC2241A6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackiSwift.Models", "TrackiSwift.Models\TrackiSwift.Models.csproj", "{0CF56B2D-8C85-477A-9EA8-61FAC2241A6A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

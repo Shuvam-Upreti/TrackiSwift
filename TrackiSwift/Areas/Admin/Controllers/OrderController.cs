@@ -1,4 +1,5 @@
 ﻿using MeetingRoom.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,8 +12,10 @@ using TrackiSwift.Models.Models;
 using TrackiSwift.Models.ViewModels;
 using TrackiSwift.Utility;
 
+
 namespace TrackiSwift.Areas.Client.Controllers
 {
+    [Authorize]
     [Area("Admin")]
     public class OrderController : Controller
     {
