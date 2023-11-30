@@ -108,8 +108,7 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
             [Required]
             public string UserName { get; set; }
-            [Required]
-            public string Name { get; set; }
+
             [Required]
             [MaxLength(10)]
             public string PhoneNumber { get; set; }
@@ -159,7 +158,6 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.StreetAddress = Input.StreetAddress;
                 user.City = Input.City;
-                user.Name = Input.Name;
                 user.StreetAddress = Input.StreetAddress;
                 user.WardNo = Input.WardNo;
                 user.UserName = Input.UserName;

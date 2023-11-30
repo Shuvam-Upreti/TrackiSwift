@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using TrackiSwift.Utility;
 using TrackiSwift.DataAccess.DbInitializer;
 using TrackiSwift.DbInitializer;
+using TrackiSwift.DataAccess.Repository.IRepository;
+using TrackiSwift.DataAccess.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,7 @@ builder.Services.AddIdentity<IdentityUser,IdentityRole>().AddDefaultTokenProvide
 ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 builder.Services.AddRazorPages();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.ConfigureApplicationCookie(options =>

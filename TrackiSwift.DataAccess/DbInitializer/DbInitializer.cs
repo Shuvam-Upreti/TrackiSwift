@@ -35,6 +35,10 @@ namespace TrackiSwift.DbInitializer
             }
             //create roles if not created
 
+
+
+            //if roles are not created, then we will create admin user as well
+
             if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
             {
                 _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
@@ -44,22 +48,20 @@ namespace TrackiSwift.DbInitializer
                 //if roles are not created, then we will create admin user as well
                 _userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName= "admin@gmail.com",
-                    Name="Admin",
+                    UserName = "Adminj",
                     Email = "admin@gmail.com",
-                    PhoneNumber = "1112223333",
-                    StreetAddress = "testAve",
-                    City = "IL",
-                    WardNo = 2,
-                }, "Admin@123").GetAwaiter().GetResult();
+                    PhoneNumber = "1234567890",
+                    City = "Kathmandu",
+                    WardNo = 11,
+                    StreetAddress = "Babarmahal"
+                }, "Admin@123");
 
 
                 ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
             }
-
-            //if roles not created , then create admin user as well
             return;
         }
     }
+
 }

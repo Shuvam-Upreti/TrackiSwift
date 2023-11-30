@@ -8,8 +8,6 @@ namespace TrackiSwift.Models
         [Required]
         public string UserName { get; set; } 
         [Required]
-        public string Name { get; set; }
-        [Required]
         [MaxLength(10)]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
