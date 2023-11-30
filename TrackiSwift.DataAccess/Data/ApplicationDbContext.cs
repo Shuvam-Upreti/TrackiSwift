@@ -1,12 +1,11 @@
 ﻿
 using Microsoft.EntityFrameworkCore;
-
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using TrackiSwift.Models;
 using TrackiSwift.Models.Models;
 
-namespace MeetingRoom.Data
+namespace TrackiSwift.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

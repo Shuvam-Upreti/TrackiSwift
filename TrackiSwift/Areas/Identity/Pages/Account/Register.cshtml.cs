@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using TrackiSwift.Data;
 using TrackiSwift.Models;
 using TrackiSwift.Utility;
 
@@ -34,14 +35,14 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
-
+        private readonly ApplicationDbContext _db;
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager)
+            RoleManager<IdentityRole> roleManager,ApplicationDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -50,6 +51,7 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _db = db;
         }
 
         /// <summary>
@@ -107,6 +109,8 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             [Required]
             public string UserName { get; set; }
             [Required]
+            public string Name { get; set; }
+            [Required]
             [MaxLength(10)]
             public string PhoneNumber { get; set; }
             [Required]
@@ -117,27 +121,28 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             public int WardNo { get; set; }
             public string? Role { get; set; }
             [ValidateNever]
-            public IEnumerable<SelectListItem> RoleList {  get; set; }
+            public IEnumerable<SelectListItem> RoleList { get; set; }
         }
 
 
         public async Task OnGetAsync(string returnUrl = null)
         {
 
-            if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
-            {
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Rider)).GetAwaiter().GetResult();
-                _roleManager.CreateAsync(new IdentityRole(SD.Role_Client)).GetAwaiter().GetResult();
-            }
+            //if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
+            //{
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_Admin)).GetAwaiter().GetResult();
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_Rider)).GetAwaiter().GetResult();
+            //    _roleManager.CreateAsync(new IdentityRole(SD.Role_Client)).GetAwaiter().GetResult();
+            //}
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             Input = new InputModel()
             {
-                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem{
+                RoleList = _roleManager.Roles.Select(x => x.Name).Select(i => new SelectListItem
+                {
                     Text = i,
-                    Value=i
+                    Value = i
                 })
             };
         }
@@ -154,6 +159,7 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 user.StreetAddress = Input.StreetAddress;
                 user.City = Input.City;
+                user.Name = Input.Name;
                 user.StreetAddress = Input.StreetAddress;
                 user.WardNo = Input.WardNo;
                 user.UserName = Input.UserName;
@@ -164,13 +170,13 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if(Input.Role== SD.Role_Client)
+                    if (Input.Role == SD.Role_Client)
                     {
                         await _userManager.AddToRoleAsync(user, SD.Role_Client);
                     }
                     else
                     {
-                        await _userManager.AddToRoleAsync(user,Input.Role);
+                        await _userManager.AddToRoleAsync(user, Input.Role);
                     }
 
                     var userId = await _userManager.GetUserIdAsync(user);

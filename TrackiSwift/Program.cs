@@ -1,9 +1,11 @@
-using MeetingRoom.Data;
+using TrackiSwift.Data;
 using Microsoft.EntityFrameworkCore;
 using OfficeOpenXml;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using TrackiSwift.Utility;
+using TrackiSwift.DataAccess.DbInitializer;
+using TrackiSwift.DbInitializer;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,7 @@ ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IEmailSender, EmailSender>();
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/Login";
@@ -41,6 +44,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+SeedDatabase();
 app.UseAuthentication();
 
 app.UseAuthorization();
@@ -51,3 +56,11 @@ app.MapControllerRoute(
     pattern: "{area=Admin}/{controller=Order}/{action=Index}/{id?}");
 
 app.Run();
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+    } 
+}

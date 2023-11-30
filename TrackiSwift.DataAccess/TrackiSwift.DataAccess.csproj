@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TrackiSwift.Models\TrackiSwift.Models.csproj" />
+    <ProjectReference Include="..\TrackiSwift.Utility\TrackiSwift.Utility.csproj" />
   </ItemGroup>
 
 </Project>
