@@ -15,10 +15,10 @@ namespace TrackiSwift.DataAccess.Repository
         public UnitOfWork(ApplicationDbContext context)
         {
             _context = context;
-            Order = new OrderRepository(_context);
+            Orders = new OrderRepository(_context);
 
         }
-        public IOrderRepository Order { get;private set; }
+        public IOrderRepository Orders { get;private set; }
 
         public void Save()
         {

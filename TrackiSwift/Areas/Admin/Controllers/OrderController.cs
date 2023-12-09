@@ -11,7 +11,7 @@ using TrackiSwift.Models;
 using TrackiSwift.Models.Models;
 using TrackiSwift.Models.ViewModels;
 using TrackiSwift.Utility;
-
+using TrackiSwift.DataAccess.Repository.IRepository;
 
 namespace TrackiSwift.Areas.Client.Controllers
 {
@@ -20,11 +20,13 @@ namespace TrackiSwift.Areas.Client.Controllers
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _hostEnvironment;
 
-        public OrderController(ApplicationDbContext db)
+        public OrderController(ApplicationDbContext db, IUnitOfWork unitOfWork)
         {
             _db = db;
+            _unitOfWork = unitOfWork;
         }
 
         [AutoValidateAntiforgeryToken]
@@ -63,8 +65,8 @@ namespace TrackiSwift.Areas.Client.Controllers
                     DeliveryStatus = obj.DeliveryStatus,
                     PaymentStatus = obj.PaymentStatus
                 };
-                _db.Orders.Add(objs);
-                _db.SaveChanges();
+                _unitOfWork.Orders.Add(objs);
+                _unitOfWork.Save();
                 TempData["success"] = "Created sucessfully";
                 return RedirectToAction("Index");
             }
@@ -77,7 +79,7 @@ namespace TrackiSwift.Areas.Client.Controllers
             {
                 return NotFound();
             }
-            var orderFromDb = _db.Orders.FirstOrDefault(u => u.OrderId == Id);
+            var orderFromDb = _unitOfWork.Orders.GetFirstOrDefault(u => u.OrderId == Id);
 
             if (orderFromDb == null)
             {
@@ -90,8 +92,8 @@ namespace TrackiSwift.Areas.Client.Controllers
         {
             if (ModelState.IsValid)
             {
-                _db.Orders.Update(obj);
-                _db.SaveChanges();
+                _unitOfWork.Orders.Update(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Edited Sucessfully";
                 return RedirectToAction("Index");
             }
@@ -103,7 +105,7 @@ namespace TrackiSwift.Areas.Client.Controllers
             {
                 return NotFound();
             }
-            var coverTypeFromDb = _db.Orders.FirstOrDefault(u => u.OrderId == Id);
+            var coverTypeFromDb = _unitOfWork.Orders.GetFirstOrDefault(u => u.OrderId == Id);
 
             if (coverTypeFromDb == null)
             {
@@ -134,8 +136,8 @@ namespace TrackiSwift.Areas.Client.Controllers
                     _db.SaveChanges();
                 }
 
-                _db.Orders.Remove(obj);
-                _db.SaveChanges();
+                _unitOfWork.Orders.Remove(obj);
+                _unitOfWork.Save();
                 TempData["success"] = "Deleted sucessfully";
                 return RedirectToAction("Index");
             }
@@ -201,7 +203,7 @@ namespace TrackiSwift.Areas.Client.Controllers
         public IActionResult GetAll(string status)
         {
             IEnumerable<Order> orderList;
-             orderList = _db.Orders.ToList();
+             orderList = _unitOfWork.Orders.GetAll();
 
             switch (status)
             {

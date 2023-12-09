@@ -32,7 +32,7 @@ namespace TrackiSwift.DataAccess.Repository
             return query.ToList();
         }
 
-        public T GetFirstorDefault(System.Linq.Expressions.Expression<Func<T, bool>> filter)
+        public T GetFirstOrDefault(System.Linq.Expressions.Expression<Func<T, bool>> filter)
         {
             IQueryable<T> query = dbSet;
 

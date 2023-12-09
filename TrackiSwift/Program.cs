@@ -8,6 +8,7 @@ using TrackiSwift.DataAccess.DbInitializer;
 using TrackiSwift.DbInitializer;
 using TrackiSwift.DataAccess.Repository.IRepository;
 using TrackiSwift.DataAccess.Repository;
+using TrackiSwift.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,8 +24,8 @@ ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 builder.Services.AddRazorPages();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.AddScoped<IDbInitializer, DbInitializer>();
+builder.Services.AddSingleton<IEmailSender, EmailSender>();
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = $"/Identity/Account/Login";
@@ -65,5 +66,5 @@ void SeedDatabase()
     {
         var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
         dbInitializer.Initialize();
-    } 
+    }
 }

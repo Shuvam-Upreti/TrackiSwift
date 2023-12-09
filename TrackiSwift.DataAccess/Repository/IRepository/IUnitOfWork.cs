@@ -8,7 +8,7 @@ namespace TrackiSwift.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {
-        IOrderRepository Order { get; }
+        IOrderRepository Orders { get; }
 
         void Save();
     }
