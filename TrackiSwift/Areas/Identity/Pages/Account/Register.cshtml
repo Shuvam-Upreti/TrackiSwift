@@ -13,9 +13,9 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-floating py-2 col-6">
-                <input asp-for="Input.UserName" class="form-control" aria-required="true" />
-                <label asp-for="Input.UserName"></label>
-                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+                <input asp-for="Input.Name" class="form-control" aria-required="true" />
+                <label asp-for="Input.Name"></label>
+                <span asp-validation-for="Input.Name" class="text-danger"></span>
             </div>
             <div class="form-floating py-2 col-6">
                 <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
@@ -33,9 +33,9 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
             <div class="form-floating py-2 col-6">
-                <input asp-for="Input.PhoneNumber" class="form-control" aria-required="true" />
-                <label asp-for="Input.PhoneNumber"></label>
-                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                <input asp-for="Input.Phone" class="form-control" aria-required="true" />
+                <label asp-for="Input.Phone"></label>
+                <span asp-validation-for="Input.Phone" class="text-danger"></span>
             </div>
             <div class="form-floating py-2 col-6">
                 <input asp-for="Input.City" class="form-control" aria-required="true" />
@@ -52,16 +52,17 @@
                 <label asp-for="Input.WardNo"></label>
                 <span asp-validation-for="Input.WardNo" class="text-danger"></span>
             </div>
-         @*    @if (User.IsInRole("Admin"))
+             @if (User.IsInRole("Admin"))
             {
-            } *@
-
+                
             <div class="form-floating py-2 col-6">
                 <select asp-for="Input.Role" asp-items="@Model.Input.RoleList" class="form-select">
                     <option disabled selected>-- Select Role--</option>
 
                 </select>
             </div>
+            } 
+
             <button id="registerSubmit" type="submit" class="w-100 btn btn-primary">Register</button>
         </form>
     </div>

@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using TrackiSwift.DataAccess.DbInitializer;
 using TrackiSwift.Models;
 using TrackiSwift.Utility;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components.Forms;
 
 namespace TrackiSwift.DbInitializer
 {
@@ -33,11 +35,6 @@ namespace TrackiSwift.DbInitializer
             {
 
             }
-            //create roles if not created
-
-
-
-            //if roles are not created, then we will create admin user as well
 
             if (!_roleManager.RoleExistsAsync(SD.Role_Admin).GetAwaiter().GetResult())
             {
@@ -48,16 +45,17 @@ namespace TrackiSwift.DbInitializer
                 //if roles are not created, then we will create admin user as well
                 var result=_userManager.CreateAsync(new ApplicationUser
                 {
-                    UserName = "shuvam",
-                    Email = "shuvamupreti@gmail.com",
-                    PhoneNumber = "1234567890",
+                    UserName= "admin@gmail.com",
+                    Name = "Admin",
+                    Email = "admin@gmail.com",
+                    Phone = "1234567890",
                     City = "Kathmandu",
                     WardNo = 11,
                     StreetAddress = "Babarmahal",
 
                 }, "Admin@123").GetAwaiter().GetResult();
 
-                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "shuvamupreti@gmail.com");
+                ApplicationUser user = _db.ApplicationUsers.FirstOrDefault(u => u.Email == "admin@gmail.com");
                 _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
 
 

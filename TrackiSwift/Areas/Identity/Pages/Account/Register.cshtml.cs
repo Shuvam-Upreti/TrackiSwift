@@ -107,11 +107,11 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
             [Required]
-            public string UserName { get; set; }
+            public string Name { get; set; }
 
             [Required]
             [MaxLength(10)]
-            public string PhoneNumber { get; set; }
+            public string Phone { get; set; }
             [Required]
             public string City { get; set; }
             [Required]
@@ -160,8 +160,8 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                 user.City = Input.City;
                 user.StreetAddress = Input.StreetAddress;
                 user.WardNo = Input.WardNo;
-                user.UserName = Input.UserName;
-                user.PhoneNumber = Input.PhoneNumber;
+                user.Name = Input.Name;
+                user.Phone = Input.Phone;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)

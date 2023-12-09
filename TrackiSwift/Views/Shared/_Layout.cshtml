@@ -26,15 +26,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Order" asp-action="Index">Orders</a>
                         </li>
-                         @if (User.IsInRole(SD.Role_Admin))
+                        @if (User.IsInRole(SD.Role_Admin))
                         {
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">User Management</a>
                                 <div class="dropdown-menu">
                                     <a class="dropdown-item " asp-area="Identity" asp-page="/Account/Register">Create User</a>
-                                </div> 
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item " asp-area="Admin" asp-controller="User" asp-action="Index">Create User</a>
+                                    <a class="dropdown-item " asp-area="Admin" asp-controller="User" asp-action="Index">Manage User</a>
                                 </div>
                             </li>
                         }

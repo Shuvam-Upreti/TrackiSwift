@@ -1,0 +1,67 @@
+﻿@* @{
+    var status = Context.Request.Query["status"];
+    var admin = "text-primary";
+    var client = "text-primary";
+    var rider = "text-primary";
+    var all = "text-primary";
+
+    switch (status)
+    {
+        case "admin":
+            admin = "active text-white";
+            break;
+        case "client":
+            client = "active text-white";
+            break;
+        case "rider":
+            rider = "active text-white";
+            break;
+        default:
+            all = "active text-white";
+            break;
+    }
+}﻿
+
+<div class="card shadow border-0 my-4">
+    <div class="card-header bg-secondary bg-gradient ml-0 py-3">
+        <div class="row">
+            <div class="pt-2">
+                <ul class="list-group list-group-horizontal-sm">
+                    <a style="text-decoration:none;" asp-controller="User" asp-action="Index" asp-route-status="admin">
+                    <li class="list-group-item @admin">Admin</li>
+                    </a>
+                    <a style="text-decoration:none;" asp-controller="User" asp-action="Index" asp-route-status="client">
+                    <li class="list-group-item @client">Client</li>
+                    </a>
+                    <a style="text-decoration:none;" asp-controller="User" asp-action="Index" asp-route-status="rider">
+                    <li class="list-group-item @rider">Rider</li>
+                    </a>
+                    <a style="text-decoration:none;" asp-controller="User" asp-action="Index" asp-route-status="all">
+                    <li class="list-group-item @all">All</li>
+                    </a>
+                </ul>
+            </div>
+        </div>
+    </div> *@
+            <div class="col-12 ">
+                <h2 class="text-primary py-2">User List</h2>
+            </div>
+    <div class="card-body p-4">
+        <table id="tblData" class="table table-bordered table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/user.js"></script>
+}
