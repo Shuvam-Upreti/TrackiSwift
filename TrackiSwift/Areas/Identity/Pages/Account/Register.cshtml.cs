@@ -42,7 +42,7 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager,ApplicationDbContext db)
+            RoleManager<IdentityRole> roleManager, ApplicationDbContext db)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -195,8 +195,16 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
+                        if (user.Role == null)
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                            return LocalRedirect(returnUrl);
+                        }
+                        else
+                        {
+                            //if admin is registering user
+                            return RedirectToAction("Index", "User", new {Area="Admin"});
+                        }
                     }
                 }
                 foreach (var error in result.Errors)

@@ -10,6 +10,8 @@ namespace TrackiSwift.Models.ViewModels
 {
     public class UserVM
     {
+        //[NotMapped]
+        //public string Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

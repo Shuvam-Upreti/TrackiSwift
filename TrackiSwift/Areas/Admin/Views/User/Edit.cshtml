@@ -1,10 +1,10 @@
-﻿@using TrackiSwift.Models.ViewModels;
-@model UserVM;
+﻿@using TrackiSwift.Models;
+@model ApplicationUser;
 @{
     TempData["Title"] = "Edit";
     List<SelectListItem> roles = (List<SelectListItem>)ViewBag.Roles;
 }
-<h1>Create User</h1>
+<h1>Edit User</h1>
 
 <hr />
 <div class="row">

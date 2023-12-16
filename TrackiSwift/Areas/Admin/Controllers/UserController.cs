@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using TrackiSwift.Data;
 using TrackiSwift.Models;
 using TrackiSwift.Models.ViewModels;
@@ -12,9 +14,11 @@ namespace TrackiSwift.Areas.Admin.Controllers
     public class UserController : Controller
     {
         public ApplicationDbContext _db { get; set; }
-        public UserController(ApplicationDbContext db)
+        private RoleManager<IdentityRole> _roleManager;
+        public UserController(ApplicationDbContext db, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -30,7 +34,12 @@ namespace TrackiSwift.Areas.Admin.Controllers
             {
                 return NotFound();
             }
-
+            var roles = _roleManager.Roles.Select(x => new SelectListItem
+            {
+                Value = x.Id,
+                Text = x.Name
+            }).ToList();
+            ViewBag.Roles = roles;
             return View(userFromDb);
         }
         [HttpPost]
@@ -38,6 +47,7 @@ namespace TrackiSwift.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 ApplicationUser users = new ApplicationUser() 
                 { 
                     Name=user.Name,
@@ -45,7 +55,8 @@ namespace TrackiSwift.Areas.Admin.Controllers
                     Phone=user.Phone,
                     City=user.City,
                     StreetAddress=user.StreetAddress,
-                    WardNo=user.WardNo
+                    WardNo=user.WardNo,
+                    Role=user.Role,
                 };
 
                 _db.Users.Update(users);
