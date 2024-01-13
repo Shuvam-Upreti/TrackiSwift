@@ -17,8 +17,8 @@ namespace TrackiSwift.Models.Models
         [ForeignKey("UserId")]
         public ApplicationUser Users { get; set; }
         [Required]
-        public int OrderId { get; set; }
-        [ForeignKey("BookingId")]
+        public int? OrderId { get; set; }
+        [ForeignKey("OrderId")]
         public Order Orders { get; set; }
 
     }

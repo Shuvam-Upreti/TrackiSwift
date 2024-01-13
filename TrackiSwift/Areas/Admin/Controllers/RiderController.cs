@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using TrackiSwift.Data;
 using TrackiSwift.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
+using TrackiSwift.Models.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace TrackiSwift.Areas.Admin.Controllers
 {
@@ -24,7 +26,7 @@ namespace TrackiSwift.Areas.Admin.Controllers
             _userManager = userManager;
 
         }
-        public async Task<IActionResult> AssignRider(int Id)
+        public async Task<IActionResult> AssignRider(int id)
         {
             var allUsers = await _db.Users.ToListAsync();
 
@@ -50,10 +52,61 @@ namespace TrackiSwift.Areas.Admin.Controllers
             ViewBag.UserList = riderList;
 
 
-            var order= _unitOfWork.Orders.GetFirstOrDefault(u=>u.OrderId == Id);
+            var order = _unitOfWork.Orders.GetFirstOrDefault(u => u.OrderId == id);
+            Rider rider = new Rider
+            {
+                OrderId = id,
+
+            };
+
+            return View(rider);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AssignRider(Rider obj)
+        {
+
+            var order = _unitOfWork.Orders.GetFirstOrDefault(u => u.OrderId == obj.OrderId);
+            var existingRider = _db.Riders.FirstOrDefault(p => p.UserId == obj.UserId && p.OrderId == obj.OrderId);
+            if (existingRider == null)
+            {
+
+                Rider rider = new Rider
+                {
+                    UserId = obj.UserId,
+                    OrderId = order.OrderId
+                };
+                _db.Riders.Add(rider);
+
+                // _unitOfWork.Rider.Add(participant);
+                TempData["success"] = "Rider Assigned Sucessfully";
+                _unitOfWork.Save();
+            }
+            else
+            {
+                TempData["error"] = "Rider Already Assigned";
+                return View(existingRider);
+            }
+            return RedirectToAction("Index", "Order", new { area = "Admin" });
 
 
-            return View(order);
+        }
+
+
+        public async Task<IActionResult> ViewRider(Rider obj)
+        {
+            var existingRider = _db.Riders.FirstOrDefault(p => p.UserId == obj.UserId && p.OrderId == obj.OrderId);
+ 
+
+            var riders = _db.Riders.Select(x => new SelectListItem
+            {
+                Value = x.Users.Id,
+                Text = x.Users.Name
+            }).ToList();
+            ViewBag.Roles = riders;
+
+            return View(existingRider);
         }
     }
 }

@@ -17,9 +17,27 @@ namespace TrackiSwift.Data
         public DbSet<OrderBackup> OrderBackups { get; set; }
         public DbSet<Rider> Riders { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Rider>()
+                .HasOne(r => r.Users)
+                .WithMany()
+                .HasForeignKey(r => r.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Rider>()
+                .HasOne(r => r.Orders)
+                .WithMany()
+                .HasForeignKey(r => r.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
 
+            // Other configurations...
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
+
+
 
 }
 

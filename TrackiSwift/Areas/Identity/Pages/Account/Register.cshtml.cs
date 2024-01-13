@@ -162,6 +162,7 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                 user.WardNo = Input.WardNo;
                 user.Name = Input.Name;
                 user.Phone = Input.Phone;
+                user.Name= Input.Name;
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
                 if (result.Succeeded)
@@ -195,16 +196,15 @@ namespace TrackiSwift.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        if (user.Role == null)
+                        if (User.IsInRole(SD.Role_Admin))
                         {
-                            await _signInManager.SignInAsync(user, isPersistent: false);
-                            return LocalRedirect(returnUrl);
+                            TempData["success"] = "New User Created Successfully";
                         }
                         else
                         {
-                            //if admin is registering user
-                            return RedirectToAction("Index", "User", new {Area="Admin"});
+                            await _signInManager.SignInAsync(user, isPersistent: false);
                         }
+                        return LocalRedirect(returnUrl);
                     }
                 }
                 foreach (var error in result.Errors)

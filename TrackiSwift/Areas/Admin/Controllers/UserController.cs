@@ -70,7 +70,7 @@ namespace TrackiSwift.Areas.Admin.Controllers
 
         #region API CALLS
 
-        public IActionResult GetAll(string status)
+        public IActionResult GetAll()
         {
             var userList = _db.ApplicationUsers.ToList();
             var userRole = _db.UserRoles.ToList();

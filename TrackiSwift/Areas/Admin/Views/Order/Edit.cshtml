@@ -1,5 +1,6 @@
-﻿@model TrackiSwift.Models.Order
-
+﻿@model TrackiSwift.Models.Order 
+@* @model TrackiSwift.Models.ViewModels.RiderVM *@
+ 
 <form method="post" asp-action="Edit" asp-route-id="@Model.OrderId">
     <input type="hidden" asp-for="OrderId" />
     <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
@@ -124,7 +125,12 @@
             </div>
             <span asp-validation-for="PaymentStatus" class="text-danger" style="margin-left:13.5vw;"></span>
         </div>
+
         <button type="submit" class="btn btn-primary" style="width:150px">Update</button>
+        <button type="button" class="btn btn-primary" style="width:150px" onclick="assignRider(@Model.OrderId)">
+            Rider
+        </button>
+
         <a asp-area="Admin" asp-controller="Order" asp-action="Index" class="btn btn-secondary" style="width:150px">Back to List</a>
 
     </div>
@@ -132,6 +138,11 @@
 </form>
 
 @section Scripts{
+    <script>
+        function assignRider(orderId) {
+            window.location.href = `/Admin/Rider/AssignRider?id=${orderId}`;
+        }
+    </script>
     @{
         <partial name="_ValidationScriptsPartial" />
     }
