@@ -1,0 +1,23 @@
+﻿@using TrackiSwift.Models.ViewModels
+@model RiderVM
+
+@{
+    ViewData["Title"] = "Assigned Rider";
+}
+
+<h1>Assigned Rider</h1>
+
+
+<div class="form-group">
+    <label>
+        Participants:
+        @foreach (var item in Model.Riders)
+        {
+            <label style="display:flex; text-decoration:none;">
+                <ul>@item.Users.UserName</ul>
+                <button style="text-decoration:none; border:solid white 2px;margin-left:30px;color" asp-controller="Rider" asp-action="RemoveRider" asp-route-id="@item.Id">Remove</button>
+                <br>
+            </label>
+        }
+    </label>
+</div>

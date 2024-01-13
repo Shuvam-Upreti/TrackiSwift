@@ -41,7 +41,7 @@ function loadDataTable(status) {
                 "render": function (data) {
                     return `
                         <div class="w-75 btn-group" role="group">
-                         <a href="/Admin/Rider/AssignRider?id=${data}"
+                         <a href="/Admin/Rider/ViewRider?id=${data}"
                         class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Rider</a>
                         <a href="/Admin/Order/Edit?id=${data}"
                         class="btn btn-primary mx-2"> <i class="bi bi-pencil-square"></i> Edit</a>

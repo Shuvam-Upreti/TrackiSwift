@@ -7,6 +7,8 @@ using TrackiSwift.DataAccess.Repository.IRepository;
 using Microsoft.EntityFrameworkCore;
 using TrackiSwift.Models.Models;
 using Microsoft.AspNetCore.Identity;
+using TrackiSwift.Models;
+using TrackiSwift.Models.ViewModels;
 
 namespace TrackiSwift.Areas.Admin.Controllers
 {
@@ -59,6 +61,16 @@ namespace TrackiSwift.Areas.Admin.Controllers
 
             };
 
+            IEnumerable<SelectListItem> riders = _db.Riders.Select(
+               x => new SelectListItem
+               {
+                   Value = x.Users.Id,
+                   Text = x.Users.Name
+               });
+            ViewBag.Roles = riders;
+
+            /////ya bata 
+           
             return View(rider);
         }
 
@@ -86,27 +98,47 @@ namespace TrackiSwift.Areas.Admin.Controllers
             else
             {
                 TempData["error"] = "Rider Already Assigned";
-                return View(existingRider);
             }
             return RedirectToAction("Index", "Order", new { area = "Admin" });
-
-
         }
 
 
-        public async Task<IActionResult> ViewRider(Rider obj)
+        public async Task<IActionResult> ViewRider(int id)
         {
-            var existingRider = _db.Riders.FirstOrDefault(p => p.UserId == obj.UserId && p.OrderId == obj.OrderId);
- 
+            //var existingRider = _db.Riders.FirstOrDefault(p => p.UserId == obj.UserId && p.OrderId == obj.OrderId);
+            //IEnumerable<SelectListItem> riders = _db.Riders.Select(
+            //    x => new SelectListItem
+            //    {
+            //        Value = x.Users.Id,
+            //        Text = x.Users.Name
+            //    });
+            //ViewBag.Roles = riders;
 
-            var riders = _db.Riders.Select(x => new SelectListItem
+            List<Rider> participants = _db.Riders.ToList();
+            List<Rider> participantslist = new List<Rider>();
+
+            foreach (var item in participants)
             {
-                Value = x.Users.Id,
-                Text = x.Users.Name
-            }).ToList();
-            ViewBag.Roles = riders;
+                var user = _db.Users.Find(item.UserId);
+                ApplicationUser abc = new ApplicationUser
+                {
+                    Id = user.Id,
+                    UserName=user.UserName,
+                };
 
-            return View(existingRider);
+                if (item.OrderId == id)
+                {
+                    item.Users = abc;
+                    participantslist.Add(item);
+                }
+            }
+
+            RiderVM model= new RiderVM
+            {
+                Riders = participantslist,
+            };
+
+            return View(model);
         }
     }
 }
