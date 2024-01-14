@@ -81,9 +81,9 @@ namespace TrackiSwift.Areas.Admin.Controllers
 
             var order = _unitOfWork.Orders.GetFirstOrDefault(u => u.OrderId == obj.OrderId);
             var existingRider = _db.Riders.FirstOrDefault(p => p.UserId == obj.UserId && p.OrderId == obj.OrderId);
-            if (existingRider == null)
+            var orderExists = _db.Riders.Any(r => r.OrderId == obj.OrderId);
+            if (existingRider == null && !orderExists)
             {
-
                 Rider rider = new Rider
                 {
                     UserId = obj.UserId,
@@ -105,15 +105,6 @@ namespace TrackiSwift.Areas.Admin.Controllers
 
         public async Task<IActionResult> ViewRider(int id)
         {
-            //var existingRider = _db.Riders.FirstOrDefault(p => p.UserId == obj.UserId && p.OrderId == obj.OrderId);
-            //IEnumerable<SelectListItem> riders = _db.Riders.Select(
-            //    x => new SelectListItem
-            //    {
-            //        Value = x.Users.Id,
-            //        Text = x.Users.Name
-            //    });
-            //ViewBag.Roles = riders;
-
             List<Rider> participants = _db.Riders.ToList();
             List<Rider> participantslist = new List<Rider>();
 
