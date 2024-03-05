@@ -68,8 +68,6 @@ namespace TrackiSwift.Areas.Admin.Controllers
                    Text = x.Users.Name
                });
             ViewBag.Roles = riders;
-
-            /////ya bata 
            
             return View(rider);
         }
@@ -131,5 +129,20 @@ namespace TrackiSwift.Areas.Admin.Controllers
 
             return View(model);
         }
+        public IActionResult RemoveRider(int id)
+        {
+            var rider = _db.Riders.FirstOrDefault(p => p.Id == id);
+
+            if (rider == null)
+            {
+                return NotFound();
+            }
+
+            _db.Riders.Remove(rider);
+            _db.SaveChanges();
+            TempData["success"] = "Rider Removed Sucessfully";
+            return RedirectToAction("Index", "Order", new { area = "Admin" });
+        }
+
     }
 }

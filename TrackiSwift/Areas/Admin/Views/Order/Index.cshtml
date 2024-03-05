@@ -34,24 +34,24 @@
 <div class="container p-3">
     <div class="d-flex justify-content-between pt-0">
         <div class="pt-2">
-            <h2 class="text-primary">Order List</h2>
+            <h2 class="text-dark">Order List</h2>
         </div>
-        <div class="pt-2">
+        <div class="pt-2 text-dark ">
             <ul class="list-group list-group-horizontal-sm">
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="unverified">
-                <li class="list-group-item @unverified">Unverified</li>
+                <li class="list-group-item text-dark @unverified">Unverified</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="inprocess">
-                <li class="list-group-item @inprocess">InProcess</li>
+                <li class="list-group-item text-dark @inprocess">InProcess</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="delivered">
-                <li class="list-group-item @delivered">Delivered</li>
+                <li class="list-group-item text-dark @delivered">Delivered</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="returned">
-                <li class="list-group-item @returned">Returned</li>
+                <li class="list-group-item text-dark @returned">Returned</li>
                 </a>
                 <a style="text-decoration:none;" asp-controller="Order" asp-action="Index" asp-route-status="all">
-                <li class="list-group-item @all">All</li>
+                <li class="list-group-item text-dark @all">All</li>
                 </a>
             </ul>
         </div>
@@ -61,7 +61,7 @@
             <form method="post" enctype="multipart/form-data" asp-controller="Order" asp-action="Import">
                 <div class="input-group">
                     <input type="file" name="file" class="form-control" />
-                    <button type="submit" class="btn btn-primary">Import Order(.xlsx)</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-upload"></i> Import Order(.xlsx)</button>
                 </div>
             </form>
         </div>

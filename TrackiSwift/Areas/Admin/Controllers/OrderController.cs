@@ -203,8 +203,38 @@ namespace TrackiSwift.Areas.Client.Controllers
         public IActionResult GetAll(string status)
         {
             IEnumerable<Order> orderList;
-             orderList = _unitOfWork.Orders.GetAll();
+            if (User.IsInRole("Admin"))
+            {
+                orderList = _unitOfWork.Orders.GetAll();
+            }
+            else if(User.IsInRole("Client"))
+            {
+                var claimsIdentity= (ClaimsIdentity)User.Identity;
+                var claim= claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                orderList = _unitOfWork.Orders.GetAll(u=>u.ApplicationUserId==claim.Value);
 
+            }
+            else if(User.IsInRole("Rider"))
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+                var riderId = claim.Value;
+
+                // Retrieve orders assigned to the current rider
+                var assignedOrderIds = _db.Riders
+                                            .Where(r => r.UserId == riderId)
+                                            .Select(r => r.OrderId)
+                                            .ToList();
+
+                // Fetch orders based on the assigned order IDs
+                orderList = _unitOfWork.Orders.GetAll(o => assignedOrderIds.Contains(o.OrderId));
+
+            }
+            else
+            {
+                return View();
+            }
+         
             switch (status)
             {
                 case "unverified":
